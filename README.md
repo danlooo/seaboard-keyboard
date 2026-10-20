@@ -125,6 +125,10 @@ Seaboard's expressive surface.
 | Press hard and hold | repeat the last character |
 | Hold the topmost key ~0.7 s | toggle between typing and MIDI |
 
+If the toggle gesture ever fails you while in MIDI mode, the daemon prints a
+`kill -USR1 <pid>` line at startup; that signal toggles modes without needing
+the board.
+
 Glides work by moving sideways off the key rather than by pitch, so they do not
 produce a character — which is what makes them usable for Space and Backspace,
 the two keys you press most often while typing.
@@ -148,9 +152,15 @@ not by note. This is what allows a slide on one key to affect only that key
 while other fingers keep typing.
 
 A third consequence: ALSA raw-MIDI devices are exclusive, so two readers cannot
-share the stream. In MIDI mode the daemon therefore *closes* the device,
-handing it to your DAW — "still works as a MIDI instrument" cannot mean both at
-once.
+share the stream. The daemon therefore holds the device open in *both* modes,
+and in MIDI mode simply stops typing — the notes still reach anything listening
+on the ALSA sequencer, but they are not echoed as keystrokes.
+
+Holding it open in MIDI mode is deliberate. Releasing it would be tidier for a
+DAW, but then the driver could not see the top-key gesture that switches back,
+and you would be stuck in MIDI mode until you restarted it. If that contention
+becomes a real problem, the fix is to give the board a second ALSA port and let
+the DAW read that one.
 
 ## Tuning
 

@@ -128,39 +128,61 @@ def main(argv: list[str] | None = None) -> int:
     engine = Engine(layout=layout, typing_enabled=not args.start_in_midi_mode)
     sink = ActionSink(keyboard, dry_run=args.dry_run)
     running = True
+    force_toggle = False
 
     def stop(signum: int, frame: object) -> None:
         nonlocal running
         running = False
 
+    def toggle(signum: int, frame: object) -> None:
+        # An escape hatch that does not depend on the board: in MIDI mode the
+        # key gesture is the only way back, so this is the fallback.
+        nonlocal force_toggle
+        force_toggle = True
+
     signal.signal(signal.SIGINT, stop)
     signal.signal(signal.SIGTERM, stop)
+    signal.signal(signal.SIGUSR1, toggle)
 
     print(layout.describe())
     print(f"\nlistening on {device_path}")
     print(
-        "hold the topmost key to switch between typing and MIDI; "
+        "hold the topmost key to switch between typing and MIDI.\n"
+        f"If that gesture ever fails you, send SIGUSR1 to toggle:\n"
+        f"    kill -USR1 {os.getpid()}\n"
         "ctrl-c to quit.\n"
     )
 
     device: MidiDevice | None = None
     try:
+        was_typing = engine.typing_enabled
         while running:
-            # In MIDI mode the device is left closed so other software can use it.
-            if engine.typing_enabled and device is None:
+            if force_toggle:
+                force_toggle = False
+                engine.typing_enabled = not engine.typing_enabled
+            # The device is held open in both modes. Releasing it in MIDI mode
+            # would be tidier for other software, but then the driver could not
+            # see the top-key gesture that switches back, and you would be
+            # stuck in MIDI mode until you restarted it. (If that becomes a
+            # real conflict, giving the board a second ALSA port and letting
+            # the DAW read that one is the fix.)
+            if device is None:
                 try:
                     device = MidiDevice(device_path)
                 except OSError as exc:
                     print(f"error: cannot open {device_path}: {exc}", file=sys.stderr)
                     return 1
-                print("-- typing mode: Seaboard is captured --")
-            elif not engine.typing_enabled and device is not None:
-                device.close()
-                device = None
-                sink.release_all()
-                print("-- MIDI mode: Seaboard released to other software --")
 
-            messages = device.read(timeout=0.05) if device is not None else []
+            if engine.typing_enabled != was_typing:
+                was_typing = engine.typing_enabled
+                if engine.typing_enabled:
+                    print("-- typing mode --")
+                else:
+                    sink.release_all()
+                    engine.release_all()
+                    print("-- MIDI mode: notes pass through, not typed --")
+
+            messages = device.read(timeout=0.05)
             for message in messages:
                 if args.verbose:
                     print(f"  midi {message}")

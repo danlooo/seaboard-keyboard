@@ -430,8 +430,10 @@ class Engine:
         return out
 
     def release_all(self) -> None:
+        """Forget every held note. Call when the input stream is interrupted."""
         self._pending.clear()
         self._channels.clear()
         self._pressure.clear()
         self._repeat_armed.clear()
         self._top_key_since = None
+        self._top_key_consumed = False
