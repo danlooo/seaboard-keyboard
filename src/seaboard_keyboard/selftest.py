@@ -8,7 +8,7 @@ The message sequences replay what the *real* board sends — ``CC74`` and pitch
 bend before ``note_on``, low absolute values, and wobble during a plain press —
 not what the MPE specification alone would suggest. See ``calibrate.py``.
 
-    python -m seaboard_kbd.selftest
+    python -m seaboard_keyboard.selftest
 """
 
 from __future__ import annotations
@@ -156,7 +156,7 @@ def run() -> int:
     window = 0.08
     failures = 0
 
-    print("seaboard-kbd self test (simulated hardware)\n")
+    print("seaboard-keyboard self test (simulated hardware)\n")
 
     for description, messages, expected, expected_presses in SCENARIOS:
         engine = Engine(layout=layout)
@@ -207,7 +207,7 @@ def run() -> int:
 
 
 def main() -> int:
-    """Entry point for the ``seaboard-kbd selftest`` subcommand."""
+    """Entry point for the ``seaboard-keyboard selftest`` subcommand."""
     return run()
 
 

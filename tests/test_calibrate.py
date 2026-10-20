@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-from seaboard_kbd.calibrate import parse, report
+from seaboard_keyboard.calibrate import parse, report
 
 SAMPLE = """listening on /dev/snd/midiC4D0
 press / slide / wiggle keys on the Seaboard. ctrl-c to stop.

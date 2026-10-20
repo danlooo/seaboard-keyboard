@@ -4,8 +4,8 @@ Run this, then press, slide and wiggle a few keys — it prints each MIDI
 message as it arrives, which is how we discover what the hardware actually
 does rather than guessing.
 
-    python -m seaboard_kbd.probe              # watch everything
-    python -m seaboard_kbd.probe --guided     # walk through each gesture
+    python -m seaboard_keyboard.probe              # watch everything
+    python -m seaboard_keyboard.probe --guided     # walk through each gesture
 
 ``--guided`` is what calibration needs: it prompts for one gesture at a time
 and marks the boundaries in the output, so ``calibrate.py`` can tell a
@@ -92,7 +92,7 @@ def _run_guided(device: MidiDevice) -> int:
         print("\nstopped early.")
     print("# END")
     print("\nCapture complete. Run:")
-    print("    python -m seaboard_kbd.calibrate <this file>")
+    print("    python -m seaboard_keyboard.calibrate <this file>")
     return 0
 
 

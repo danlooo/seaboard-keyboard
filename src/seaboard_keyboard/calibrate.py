@@ -4,8 +4,8 @@ Every threshold in ``engine.py`` is currently a guess. This reads a capture
 from ``probe.py`` and reports what the board actually sent, so the guesses can
 be replaced with measurements.
 
-    python -m seaboard_kbd.probe > capture.log     # then play the board
-    python -m seaboard_kbd.calibrate capture.log
+    python -m seaboard_keyboard.probe > capture.log     # then play the board
+    python -m seaboard_keyboard.calibrate capture.log
 """
 
 from __future__ import annotations

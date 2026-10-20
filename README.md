@@ -1,4 +1,4 @@
-# seaboard-kbd
+# seaboard-keyboard
 
 Use a ROLI Seaboard BLOCK M as a computer keyboard.
 
@@ -69,23 +69,23 @@ No root, no udev rules, no group changes.
 ## Running
 
 ```sh
-python -m seaboard_kbd.daemon --show-layout      # print the mapping
-python -m seaboard_kbd.daemon --dry-run          # print instead of typing
-python -m seaboard_kbd.daemon                    # type for real
-python -m seaboard_kbd.daemon --verbose          # log every decision
-python -m seaboard_kbd.probe                     # watch raw MIDI from the board
-python -m seaboard_kbd.selftest                  # simulate, no hardware needed
+python -m seaboard_keyboard.daemon --show-layout      # print the mapping
+python -m seaboard_keyboard.daemon --dry-run          # print instead of typing
+python -m seaboard_keyboard.daemon                    # type for real
+python -m seaboard_keyboard.daemon --verbose          # log every decision
+python -m seaboard_keyboard.probe                     # watch raw MIDI from the board
+python -m seaboard_keyboard.selftest                  # simulate, no hardware needed
 
 # calibration
-python -m seaboard_kbd.probe --guided > guided.log   # follow the prompts
-python -m seaboard_kbd.calibrate guided.log          # recommended thresholds
+python -m seaboard_keyboard.probe --guided > guided.log   # follow the prompts
+python -m seaboard_keyboard.calibrate guided.log          # recommended thresholds
 ```
 
 Start with `--dry-run`: it exercises the whole path but types nothing, so you
 can learn the gestures without spraying characters into whatever window has
 focus.
 
-Install the console scripts with `pip install -e .` if you want `seaboard-kbd`
+Install the console scripts with `pip install -e .` if you want `seaboard-keyboard`
 and `seaboard-probe` on your `PATH`.
 
 ## The layout
@@ -164,7 +164,7 @@ the DAW read that one.
 
 ## Tuning
 
-`src/seaboard_kbd/engine.py`, at the top:
+`src/seaboard_keyboard/engine.py`, at the top:
 
 | Constant | Default | Meaning |
 | --- | --- | --- |
@@ -182,8 +182,8 @@ The right way to set these is a guided capture, which labels each gesture so
 the tool can separate signal from noise:
 
 ```sh
-python -m seaboard_kbd.probe --guided > guided.log
-python -m seaboard_kbd.calibrate guided.log
+python -m seaboard_keyboard.probe --guided > guided.log
+python -m seaboard_keyboard.calibrate guided.log
 ```
 
 It prints a table of plain-press noise against each gesture's signal, and
@@ -192,7 +192,7 @@ recommends the midpoint for every threshold.
 ## Layout format
 
 Layouts are data, not code. Copy `layouts/qwerty.toml` to
-`~/.config/seaboard-kbd/layouts/` to override one without touching the repo.
+`~/.config/seaboard-keyboard/layouts/` to override one without touching the repo.
 
 ```toml
 [characters]
@@ -212,7 +212,7 @@ half-working.
 
 ```sh
 PYTHONPATH=src python -m unittest discover -s tests   # 79 tests
-PYTHONPATH=src python -m seaboard_kbd.selftest        # end-to-end, simulated
+PYTHONPATH=src python -m seaboard_keyboard.selftest        # end-to-end, simulated
 ```
 
 The unit tests cover the MIDI parser (running status, messages split across

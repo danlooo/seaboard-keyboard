@@ -1,9 +1,9 @@
 """The driver daemon: wires the Seaboard to a virtual keyboard.
 
-    seaboard-kbd --layout layouts/qwerty.toml          # type for real
-    seaboard-kbd --dry-run                             # print, do not type
-    seaboard-kbd --list-layouts
-    seaboard-kbd --show-layout
+    seaboard-keyboard --layout layouts/qwerty.toml          # type for real
+    seaboard-keyboard --dry-run                             # print, do not type
+    seaboard-keyboard --list-layouts
+    seaboard-keyboard --show-layout
 
 In typing mode the daemon holds the raw MIDI device open and types. In MIDI
 mode it releases the device so a DAW or synth can take it over, which is what
@@ -32,7 +32,7 @@ LAYOUT_DIR = Path(__file__).resolve().parents[2] / "layouts"
 #: Where extra layouts are looked up, so a user layout can shadow a bundled one.
 USER_LAYOUT_DIR = Path(
     os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")
-) / "seaboard-kbd" / "layouts"
+) / "seaboard-keyboard" / "layouts"
 
 
 def available_layouts() -> dict[str, Path]:
@@ -58,7 +58,7 @@ def resolve_layout(name: str) -> Path:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="seaboard-kbd",
+        prog="seaboard-keyboard",
         description="Use a ROLI Seaboard as a computer keyboard.",
     )
     parser.add_argument(

@@ -20,7 +20,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from seaboard_kbd.engine import (
+from seaboard_keyboard.engine import (
     GLIDE_TRAVEL,
     REPEAT_RISE,
     SLIDE_TRAVEL,
@@ -29,9 +29,9 @@ from seaboard_kbd.engine import (
     ToggleMode,
     TypeChar,
 )
-from seaboard_kbd.geometry import PianoGeometry
-from seaboard_kbd.layout import LayoutError, load_layout
-from seaboard_kbd.midi import MidiMessage
+from seaboard_keyboard.geometry import PianoGeometry
+from seaboard_keyboard.layout import LayoutError, load_layout
+from seaboard_keyboard.midi import MidiMessage
 
 LAYOUT = Path(__file__).resolve().parent.parent / "layouts" / "qwerty.toml"
 

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import unittest
 
-from seaboard_kbd.midi import MidiParser
+from seaboard_keyboard.midi import MidiParser
 
 
 class TestMidiParser(unittest.TestCase):
