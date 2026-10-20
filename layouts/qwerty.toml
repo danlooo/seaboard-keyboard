@@ -1,0 +1,80 @@
+# QWERTY-shaped layout for the ROLI Seaboard BLOCK M (2 octaves, 25 keys).
+#
+#   BLACK keys are the QWERTY top row -- exactly ten of them:
+#
+#     C# D#    F# G# A#      C# D#    F# G# A#
+#     q  w     e  r  t       y  u     i  o  p
+#
+#   WHITE keys carry the home row, then the bottom row:
+#
+#     C  D  E  F  G  A  B    C  D  E  F  G  A  B  C
+#     a  s  d  f  g  h  j    k  l  z  x  c  v  b  n
+#
+#   That is 24 of 26 letters. 'm' has no key: it lives on the symbol layer
+#   below, and is one slide away. If you would rather move a rarer letter up
+#   and make 'm' primary, just swap two entries.
+#
+# Gestures (see [gestures] at the bottom):
+#   strike straight down ...... the plain character
+#   slide up the key .......... uppercase (Shift)
+#   slide down the key ........ the symbol layer
+#   glide left ................ Backspace
+#   glide right ............... Space
+#   press hard while holding .. repeat the last character
+#   hold the topmost key ...... toggle between typing and normal MIDI
+
+[board]
+base_note = 48   # C3
+octaves = 2
+
+[characters]
+
+# home row, then bottom row
+white = [
+  "a", "s", "d", "f", "g", "h", "j",
+  "k", "l", "z", "x", "c", "v", "b", "n",
+]
+
+# QWERTY top row fits the ten black keys exactly
+black = [
+  "q", "w",
+  "e", "r", "t",
+  "y", "u",
+  "i", "o", "p",
+]
+
+[modifiers]
+
+# Uppercase: slide up the key
+white = [
+  "A", "S", "D", "F", "G", "H", "J",
+  "K", "L", "Z", "X", "C", "V", "B", "N",
+]
+black = [
+  "Q", "W",
+  "E", "R", "T",
+  "Y", "U",
+  "I", "O", "P",
+]
+
+[symbols]
+
+# Digits on the black keys (they are already the top row), punctuation and
+# the missing 'm' on the white keys. Slide down the key to reach these.
+white = [
+  ",", ".", "-", "'", "?", ":", "m",
+  ";", "/", "1", "2", "3", "4", "5", "!",
+]
+black = [
+  "1", "2",
+  "3", "4", "5",
+  "6", "7",
+  "8", "9", "0",
+]
+
+[gestures]
+slide_up = "shift"
+slide_down = "symbol"
+press = "repeat"
+glide_left = "backspace"
+glide_right = "space"
